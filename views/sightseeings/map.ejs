@@ -1,0 +1,10 @@
+<% layout('layouts/boilerplate') %>
+
+<h3 class="mb-3 text-center">Намерете обектите на картата</h3>
+<div class="mt-2 mb-5" id="cluster-map"></div>
+
+<script>
+    const mapToken = '<%- process.env.MAPBOX_TOKEN %>';
+    const sightseeings = {features: <%- JSON.stringify(sightseeings) %>};
+</script>
+<script src="/javascripts/clusterMap.js"></script>

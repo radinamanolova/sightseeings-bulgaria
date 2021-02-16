@@ -1,0 +1,37 @@
+<% layout('layouts/boilerplate') %>
+<link rel="stylesheet" href="/stylesheets/stars.css" />
+
+<div class="col-lg-9 col-md-12 mb-5">
+  <a href="/sightseeings/<%= sightseeing._id %>">Назад към обекта</a>
+  <h4>Всички ревюта за <%= sightseeing.title %></h4>
+  <em>(общо <%= sightseeing.reviews.length %>)</em>
+  <div class="card mt-5">
+    <div class="card-body">
+      <% for(let review of sightseeing.reviews) { %>
+      <div class="row">
+        <div class="col-md-4">
+          <h5 class="starability-result" data-rating="<%= review.rating %>">
+            Rated: <%= review.rating %> stars
+          </h5>
+          <h6 class="mt-2 mb-2 text-muted">
+            <strong><%= review.author.username %></strong>
+          </h6>
+          <small class="text-muted"><%= review.created.toDateString() %></small>
+          <% if(currentUser && review.author.equals(currentUser._id)) { %>
+          <form
+            action="/sightseeings/<%= sightseeing._id %>/reviews/<%= review._id %>?_method=DELETE"
+            method="POST"
+          >
+            <button class="btn btn-sm btn-outline-danger">Изтрий</button>
+          </form>
+          <% } %>
+        </div>
+        <div class="col-md-8">
+          <p><%= review.body %></p>
+        </div>
+      </div>
+      <hr />
+      <% } %>
+    </div>
+  </div>
+</div>

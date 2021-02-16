@@ -1,0 +1,212 @@
+<% layout('layouts/boilerplate') %>
+<link rel="stylesheet" href="/stylesheets/stars.css" />
+
+<div class="row mt-3">
+  <div class="col-lg-8 col-md-12">
+    <h2><%= sightseeing.title %></h2>
+    <h4><%= sightseeing.region %></h4>
+  </div>
+  <div class="col-lg-4 col-md-12">
+    <form action="/sightseeings/<%= sightseeing._id %>/visit" method="post">
+      <div class="btn float-right">
+        <% if(currentUser && sightseeing.visits.some(function(visit) { %> <%
+        return visit.equals(currentUser._id) %> <% })) {%>
+        <button class="btn btn-sm text-nowrap">
+          <i class="fas fa-heart fa-lg"></i>
+          <span class="text-muted"
+            >Liked (<%= sightseeing.visits.length %>)</span
+          >
+        </button>
+        <% } else { %>
+        <button class="btn btn-sm text-nowrap">
+          <i class="far fa-heart fa-lg"></i>
+          <span class="text-muted"
+            >Like (<%= sightseeing.visits.length %>)</span
+          >
+        </button>
+        <% } %>
+        <a
+          href="#sightseeingVisits"
+          data-toggle="modal"
+          data-target="#sightseeingVisits"
+          ><small>Виж повече</small></a
+        >
+      </div>
+    </form>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-7 col-md-12">
+    <div id="carouselSightseeings" class="carousel slide" data-ride="carousel">
+      <ol class="carousel-indicators">
+        <% sightseeing.images.forEach((img, i) => { %>
+        <li
+          data-target="#carouselSightseeings"
+          data-slide-to="0"
+          class="<%= i === 0 ? 'active' : '' %>"
+        ></li>
+        <% }) %>
+      </ol>
+      <div class="carousel-inner">
+        <% sightseeing.images.forEach((img, i) => { %>
+        <div class="carousel-item <%= i === 0 ? 'active' : '' %>">
+          <img src="<%= img.url %>" class="d-block w-100" alt="" />
+        </div>
+        <% }) %>
+      </div>
+      <% if(sightseeing.images.length > 1) { %>
+      <a
+        class="carousel-control-prev"
+        href="#carouselSightseeings"
+        role="button"
+        data-slide="prev"
+      >
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </a>
+      <a
+        class="carousel-control-next"
+        href="#carouselSightseeings"
+        role="button"
+        data-slide="next"
+      >
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </a>
+      <% } %>
+    </div>
+  </div>
+  <div class="col-lg-5 col-md-12 mt-3">
+    <div id="map"></div>
+    <ul class="list-group list-group-flush mt-3">
+      <li class="list-group-item text-muted">
+        <i class="fas fa-map-marker-alt"></i>
+        <%= sightseeing.location %>
+      </li>
+      <li class="list-group-item text-muted">
+        <i class="fas fa-calendar-day"></i>
+        <%= sightseeing.workingDayStart %> - <%= sightseeing.workingDayEnd %>
+      </li>
+      <li class="list-group-item text-muted">
+        <i class="fas fa-clock"></i>
+        <%= sightseeing.workingHourStart %> - <%= sightseeing.workingHourEnd %>
+        ч.
+      </li>
+      <li class="list-group-item text-muted">
+        <i class="fas fa-money-bill-wave"></i>
+        <%= sightseeing.price %>лв./човек
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-7 col-md-12">
+    <p class="mt-5"><%= sightseeing.description %></p>
+    <p class="text-muted">
+      Повече информация за <strong><%= sightseeing.title %></strong> ще намерите
+      <a href="<%= sightseeing.moreInfo %>" target="_blank">тук</a>.
+    </p>
+    <% if(currentUser && sightseeing.author.equals(currentUser._id)) { %>
+    <a
+      class="card-link btn btn-outline-info btn-sm mb-5"
+      href="/sightseeings/<%= sightseeing._id %>/edit"
+      >Редактирай</a
+    >
+    <form
+      class="d-inline"
+      action="/sightseeings/<%= sightseeing._id%>?_method=DELETE"
+      method="POST"
+    >
+      <button class="btn btn-outline-danger btn-sm mb-5">Изтрий</button>
+    </form>
+    <% } %>
+  </div>
+  <!-- Reviews -->
+  <div class="col-lg-5 col-md-12">
+    <hr class="dotted" />
+    <% if(sightseeing.reviews.length === 0){ %>
+    <h4>Няма ревюта за този обект.</h4>
+    <% } else { %>
+    <h4>Ревюта: (общо <em><%= sightseeing.reviews.length %></em>)</h4>
+    <% } %> <% for(let review of sightseeing.reviews.slice(0, 3)) { %>
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5
+          class="card-title starability-result"
+          data-rating="<%= review.rating %>"
+        >
+          Rated: <%= review.rating %> stars
+        </h5>
+        <h6 class="card-subtitle mb-1 text-muted">
+          <strong><%= review.author.username %></strong>
+        </h6>
+        <small class="text-muted"><%= review.created.toDateString() %></small>
+        <p class="card-text mt-3"><%= review.body %></p>
+        <% if(currentUser && review.author.equals(currentUser._id)) { %>
+        <form
+          action="/sightseeings/<%= sightseeing._id %>/reviews/<%= review._id %>?_method=DELETE"
+          method="POST"
+        >
+          <button class="btn btn-sm btn-outline-danger">Изтрий</button>
+        </form>
+        <% } %>
+      </div>
+    </div>
+    <% } %> <% if(!sightseeing.reviews.length == 0){ %>
+    <a
+      class="btn btn-outline-secondary btn-sm mb-5"
+      href="/sightseeings/<%= sightseeing._id %>/reviews/"
+      >Виж всички ревюта</a
+    >
+    <% } %> <% if(currentUser) { %>
+    <a
+      class="btn btn-outline-success btn-sm mb-5"
+      href="/sightseeings/<%= sightseeing._id %>/reviews/new"
+      >Напиши ревю</a
+    >
+    <% } %>
+  </div>
+</div>
+
+<!-- Visits Modal -->
+<div id="sightseeingVisits" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          <%= sightseeing.title %> има: <%= sightseeing.visits.length %>
+          <i class="fas fa-heart fa-sm"></i>
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <ul class="list-group list-group-flush mt-3">
+          <% sightseeing.visits.forEach(function(visit) { %>
+          <li class="list-group-item text-muted">
+            <i class="fas fa-user"></i> <%= visit.username %>
+          </li>
+          <% }); %> <% if (sightseeing.visits.length === 0) { %>
+          <em>Няма харесвания.</em>
+          <% } %>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const mapToken = '<%- process.env.MAPBOX_TOKEN %>';
+  const sightseeing = <%- JSON.stringify(sightseeing) %>;
+</script>
+
+<script src="/javascripts/showPageMap.js"></script>

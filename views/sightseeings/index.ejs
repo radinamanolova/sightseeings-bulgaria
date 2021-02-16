@@ -1,0 +1,53 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="col-md-12 mb-5">
+  <div class="col-md-12 mb-5 mt-5">
+    <form
+      class="form-inline d-flex justify-content-center md-form form-sm mt-0"
+      action="/sightseeings"
+      method="GET"
+      id="search-bar"
+    >
+      <i class="fas fa-search fa-2x mt-2" aria-hidden="true"></i>
+      <input
+        class="form-control form-control-md ml-3 w-75"
+        type="text"
+        name="search"
+        placeholder="Търси обект по име или област"
+        aria-label="Search"
+      />
+    </form>
+  </div>
+  <% if(noMatch !== null){ %>
+  <h4 class="text-center"><%= noMatch %></h4>
+  <% } %>
+
+  <div class="row row-cols-1 row-cols-md-4 g-4">
+    <% for (let sightseeing of sightseeings) { %>
+    <div class="col" id="card">
+      <div class="card h-100">
+        <img
+          src="<%= sightseeing.images[0].url %>"
+          class="card-img-top"
+          alt="<%= sightseeing.title %>"
+        />
+        <div class="card-body">
+          <h5 class="card-title text-center"><%= sightseeing.title %></h5>
+          <p class="card-text text-center"><%= sightseeing.region %></p>
+          <p class="card-text text-center">
+            <i class="fas fa-heart fa-lg"></i>
+            (<%= sightseeing.visits.length %>)
+          </p>
+          <div class="d-grid gap-2">
+            <a
+              class="btn btn-outline-dark btn-sm"
+              href="/sightseeings/<%=sightseeing._id%>"
+              >Виж повече</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <% } %>
+  </div>
+</div>

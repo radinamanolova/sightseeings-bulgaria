@@ -1,0 +1,210 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="row">
+  <h1 class="text-center mt-3">Редактирай обекта</h1>
+  <div class="col-lg-6 col-md-12 offset-3" id="form-edit-sightseeing">
+    <form
+      action="/sightseeings/<%= sightseeing._id %>?_method=PUT"
+      method="post"
+      novalidate
+      class="validated-form"
+      enctype="multipart/form-data"
+    >
+      <div class="mb-3">
+        <label class="form-label" for="title">Име</label>
+        <input
+          class="form-control"
+          type="text"
+          id="title"
+          name="sightseeing[title]"
+          required
+          value="<%= sightseeing.title %>"
+        />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="region">Област</label>
+        <input
+          class="form-control"
+          type="text"
+          id="region"
+          name="sightseeing[region]"
+          required
+          value="<%= sightseeing.region %>"
+        />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="location">Адрес</label>
+        <input
+          class="form-control"
+          type="text"
+          id="location"
+          name="sightseeing[location]"
+          required
+          value="<%= sightseeing.location %>"
+        />
+      </div>
+      <div class="mb-3">
+        <p>Добавете нови изображения</p>
+        <div class="form-file custom-file">
+          <input
+            type="file"
+            class="form-control"
+            name="image"
+            id="image"
+            multiple
+          />
+          <label class="form-file-label" for="image">
+            <span class="form-file-text custom-file-label"></span>
+          </label>
+        </div>
+      </div>
+      <div class="mb-3">
+        <p>Или изтрийте изображения</p>
+        <% sightseeing.images.forEach(function(img, i) { %>
+        <img src="<%= img.thumbnail %>" class="img-thumbnail" alt="" />
+        <div class="form-check-inline">
+          <input
+            type="checkbox"
+            name="deleteImages[]"
+            id="image-<%= i %>"
+            value="<%= img.filename %>"
+          />
+        </div>
+        <label for="image-<%= i %>">Изтрий</label>
+        <% }) %>
+      </div>
+      <div class="mb-3">
+        <p>Работни дни</p>
+        <div class="row">
+          <div class="col">
+            <label class="form-label" for="workingDayStart">От:</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="ден от седмицата"
+              aria-label="ден от седмицата"
+              id="workingDayStart"
+              name="sightseeing[workingDayStart]"
+              value="<%= sightseeing.workingDayStart %>"
+              required
+            />
+          </div>
+          <div class="col">
+            <label class="form-label" for="workingDayEnd">До:</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="ден от седмицата"
+              aria-label="ден от седмицата"
+              id="workingDayEnd"
+              name="sightseeing[workingDayEnd]"
+              value="<%= sightseeing.workingDayEnd %>"
+              required
+            />
+          </div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <p>Работни време</p>
+        <div class="row">
+          <div class="col">
+            <label class="form-label" for="workingHourStart">От:</label>
+            <div class="input-group">
+              <input
+                type="text"
+                class="form-control"
+                id="workingHourStart"
+                placeholder="8.30"
+                aria-label="workingHourStart"
+                aria-describedby="workingHourStart-label"
+                name="sightseeing[workingHourStart]"
+                value="<%= sightseeing.workingHourStart %>"
+                required
+              />
+              <span class="input-group-text" id="workingHourStart-label"
+                >ч.</span
+              >
+            </div>
+          </div>
+          <div class="col">
+            <label class="form-label" for="workingDayEnd">До:</label>
+            <div class="input-group">
+              <input
+                type="text"
+                class="form-control"
+                id="workingHourEnd"
+                placeholder="17.30"
+                aria-label="workingHourEnd"
+                aria-describedby="workingHourEnd-label"
+                name="sightseeing[workingHourEnd]"
+                value="<%= sightseeing.workingHourEnd %>"
+                required
+              />
+              <span class="input-group-text" id="workingHourEnd-label">ч.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="price">Входна такса</label>
+        <div class="input-group">
+          <input
+            type="text"
+            class="form-control"
+            id="price"
+            placeholder="0.00"
+            aria-label="price"
+            aria-describedby="price-label"
+            name="sightseeing[price]"
+            required
+            value="<%= sightseeing.price %>"
+          />
+          <span class="input-group-text" id="price-label">лв.</span>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="description">Описание</label>
+        <textarea
+          class="form-control"
+          type="text"
+          id="description"
+          name="sightseeing[description]"
+          rows="7"
+          required
+        >
+<%= sightseeing.description %></textarea
+        >
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="moreInfo"
+          >За повече информация (добавете линк към източника)</label
+        >
+        <input
+          class="form-control"
+          type="text"
+          id="moreInfo"
+          name="sightseeing[moreInfo]"
+          placeholder="www.examplesite.com"
+          aria-label="www.examplesite.com"
+          value="<%= sightseeing.moreInfo %>"
+          required
+        />
+      </div>
+      <div class="mb-3 mt-5">
+        <div class="row">
+          <div class="col">
+            <a
+              class="btn btn-outline-danger"
+              href="/sightseeings/<%= sightseeing._id%>"
+              >Отказ</a
+            >
+          </div>
+          <div class="col">
+            <button class="btn btn-outline-info float-right">Редактирай</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

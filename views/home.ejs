@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Опознай България</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
+      integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I"
+      crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,300;0,400;0,600;1,300;1,400;1,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/stylesheets/home.css" />
+  </head>
+
+  <body class="d-flex text-center text-white bg-dark">
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+      <header class="mb-auto">
+        <div>
+          <h3 class="float-md-left mb-0">Опознай България</h3>
+          <nav class="nav nav-masthead justify-content-center float-md-right">
+            <a class="nav-link active" aria-current="page" href="#">Начало</a>
+            <a class="nav-link" href="/sightseeings">Обекти</a>
+            <a class="nav-link" href="/sightseeings/map">Карта</a>
+            <% if(!currentUser) { %>
+            <a class="nav-link" href="/login">Вход</a>
+            <a class="nav-link" href="/register">Регистрация</a>
+            <% } else { %>
+            <a class="nav-link" href="/logout">Изход</a>
+            <% } %>
+          </nav>
+        </div>
+      </header>
+      <main class="px-3">
+        <h1>Опознай България</h1>
+        <p class="lead">
+          Добре дошли в Опознай България! <br />
+          Разгледайте колекцията ни със забележителности и открийте следващата
+          дестинация, която да посетите. <br />
+          Не се колебайте да се регистрирате и да добавяте нови забележителност
+          или да коментирате тези във колекцията!
+        </p>
+        <a
+          href="/sightseeings"
+          class="btn btn-lg btn-secondary font-weight-bold border-white bg-white"
+          >Виж обектите</a
+        >
+      </main>
+
+      <footer class="mt-auto text-white-50">
+        <p>&copy;Опознай България 2021</p>
+      </footer>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"
+      integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

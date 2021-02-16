@@ -1,12 +1,10 @@
 const mongoose = require('mongoose');
-const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/sightseeing-bulgaria-v3';
 const Sightseeing = require('../models/sightseeing');
 
-mongoose.connect(dbUrl, {
+mongoose.connect('mongodb://localhost:27017/sightseeing-bulgaria-v3', {
     useNewUrlParser: true,
     useCreateIndex: true,
-    useUnifiedTopology: true,
-    useFindAndModifyL: false
+    useUnifiedTopology: true
 });
 
 const db = mongoose.connection;

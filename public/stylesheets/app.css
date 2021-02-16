@@ -76,10 +76,6 @@ hr.dotted {
     margin-top: -7%;
   }
 
-  .container.mt-5 {
-    margin-top: 0 !important;
-  }
-
   #search-bar {
     font-size: 15px;
   }
@@ -93,3 +89,9 @@ hr.dotted {
     margin-left: 0;
   }
 }
+
+/* @media screen and (max-width: 580px) {
+  .container.mt-5 {
+    margin-top: 0 !important;
+  }
+} */
